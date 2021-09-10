@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    </head>
+
+    <body>
+        <div id="app">
+            {{message}}
+        </div>
+
+        <div id="message-hover">
+            <span v-bind:title='message'>
+                Coba kamu taruh mouse kamu disini
+            </span>
+        </div>
+
+        <div id="app-3">
+            <span v-if="seen">Now you see me</span>
+        </div>
+
+        <div id="app-4">
+            <ol>
+              <li v-for="todo in todos">
+                {{ todo.text }}
+              </li>
+            </ol>
+        </div>
+
+        <div id="app-5">
+            <p>{{ message }}</p>
+            <button v-on:click="reverseMessage">Reverse Message</button>
+        </div>
+
+        <div id="app-6">
+            <p>{{ message }}</p>
+            <input v-model="message">
+        </div>
+
+        <div id="components-demo">
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+            <button-counter></button-counter>
+        </div>
+
+        <ol>
+            <todo-list></todo-list>
+            <todo-list></todo-list>
+        </ol>
+
+        <div id="app-7">
+            <ol>
+              <!--
+                Sekarang kita sematkan masing - masing todo-item dengan todo obyek,
+                sehingga isinya bisa menjadi dinamis.
+                Kita juga perlu untuk menyematkan "key" di masing - masing komponen,
+                yang mana akan dijelaskan lebih lanjut nantinya.
+              -->
+              <todo-item
+                v-for="item in barangBelanjaan"
+                v-bind:todo="item"
+                v-bind:key="item.id"
+              ></todo-item>
+            </ol>
+          </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+        <script>
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Halo'
+                }
+            })
+
+            // akan muncul floating text saat ada diatas
+            var hover = new Vue({
+                el: '#message-hover',
+                data:{
+                    message: 'Kamu coba klik'
+                }
+            })
+
+            // untuk set bisa nampak atau tidak
+            // bisa digunakan untuk hide dengan cara memasukkan input ke console
+            var app3 = new Vue({
+                el: '#app-3',
+                data: {
+                    seen: true
+                }
+            })
+
+            //untuk listing
+            //app4.todos.push({text: 'baruu'}) dapat menambahkan list
+            var app4 = new Vue({
+                el: '#app-4',
+                data: {
+                    todos: [
+                    { text: 'Learn JavaScript' },
+                    { text: 'Learn Vue' },
+                    { text: 'Build something awesome' }
+                    ]
+                }
+            })
+
+            //dengan menggunakan function kita dapat melakukan action pada elemen elemen yang ada di dalam HTML kita, asekkkk
+            var app5 = new Vue({
+                el: '#app-5',
+                data: {
+                    message: 'Hello Vue.js!'
+                },
+                methods: {
+                    reverseMessage: function () {
+                    this.message = this.message.split('').reverse().join('')
+                    }
+                }
+            })
+
+            //ini memungkinkan seseorang untuk menampilkan input yang dimasukkannya
+            var app6 = new Vue({
+                el: '#app-6',
+                data:{
+                    message:'Halo sat'
+                }
+            })
+
+            // var app7 = new Vue({
+
+            // })
+
+            //component
+            Vue.component('button-counter', {
+                data: function () {
+                    return {
+                    count: 0
+                    }
+                },
+                template: '<button v-on:click="count++">Anda mengklik saya {{ count }} kali.</button>'
+            })
+
+            Vue.component('todo-item', {
+                props: ['todo'],  //iki opo jiancok
+                template: '<li>{{ todo.barang }}</li>'
+            })
+
+            var app7 = new Vue({
+                el: '#app-7',
+                data: {
+                    barangBelanjaan: [
+                    { id: 0, barang: 'Sayuran' },
+                    { id: 1, barang: 'Keju' },
+                    { id: 2, barang: 'Makanan yang lain' }
+                    ]
+                }
+            })
+
+            new Vue({
+                el: '#components-demo'
+            })
+        </script>
+    </body>
+</html>
